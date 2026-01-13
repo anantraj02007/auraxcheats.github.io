@@ -6,22 +6,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
 body{background:#0b0b0b;color:#fff;font-family:Arial;padding:20px;}
-h2{text-align:center;color:#a855f7;}
-input,button{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:none;}
+h2{text-align:center;color:#a855f7;margin-bottom:10px;}
+input,select,button{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:none;}
 button{background:#a855f7;color:#000;font-weight:bold;cursor:pointer;}
+label{display:block;margin-top:12px;margin-bottom:4px;}
 </style>
 </head>
 <body>
 
-<h2 id="prodName"></h2>
+<h2 id="prodName">Order</h2>
 <p style="text-align:center">Amount: ₹<span id="prodPrice"></span></p>
 <img src="upi-qr.png" style="width:100%;max-width:300px;display:block;margin:10px auto">
 <p style="text-align:center"><b>UPI ID:</b> kumaripalak0@fam</p>
 
 <form id="orderForm">
-<input type="text" placeholder="Your Name" required>
-<input type="text" placeholder="Transaction ID / UTR" required>
-<button type="submit">Submit Order</button>
+  <label>Payment UTR / Transaction ID (Required)</label>
+  <input type="text" name="utr" placeholder="Enter UTR number" required>
+
+  <label>Guild UID (Required)</label>
+  <input type="text" name="guild" placeholder="Example: 100200300" required>
+
+  <label>Region</label>
+  <select name="region" required>
+    <option value="">Select Region</option>
+    <option value="India">🇮🇳 India</option>
+    <option value="Other">Other</option>
+  </select>
+
+  <label>Telegram Username</label>
+  <input type="text" name="telegram" placeholder="@username" required>
+
+  <label>WhatsApp Number</label>
+  <input type="text" name="whatsapp" placeholder="+91XXXXXXXXXX" required>
+
+  <button type="submit">Submit Order</button>
 </form>
 
 <script>
@@ -31,13 +49,20 @@ document.getElementById("prodPrice").innerText = params.get("price");
 
 document.getElementById("orderForm").addEventListener("submit", function(e){
   e.preventDefault();
-  const name = this[0].value;
-  const utr = this[1].value;
-  const product = params.get("name");
-  const price = params.get("price");
 
+  const orderData = {
+    product: params.get("name"),
+    price: params.get("price"),
+    utr: this.utr.value,
+    guild: this.guild.value,
+    region: this.region.value,
+    telegram: this.telegram.value,
+    whatsapp: this.whatsapp.value
+  };
+
+  // Save to localStorage
   let orders = JSON.parse(localStorage.getItem("orders")||"[]");
-  orders.push({name, product, price, utr});
+  orders.push(orderData);
   localStorage.setItem("orders", JSON.stringify(orders));
 
   alert("✅ Order Submitted! Admin can verify payment.");
