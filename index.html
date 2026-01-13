@@ -4,76 +4,28 @@
 <meta charset="UTF-8">
 <title>Aura X Cheats Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-:root{
-  --purple:#a855f7;
-  --border:rgba(255,255,255,.08);
-}
+:root{--purple:#a855f7;--border:rgba(255,255,255,.08)}
 *{box-sizing:border-box}
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:radial-gradient(circle at top,#1c1030,#0b0b0f 65%);
-  color:#fff;
-}
+body{margin:0;font-family:Arial;background:radial-gradient(circle at top,#1c1030,#0b0b0f 65%);color:#fff}
 .hero{text-align:center;padding:50px 16px 20px}
 .hero h1{margin:0;font-size:36px;font-weight:900;letter-spacing:2px}
 .hero h1 span{color:var(--purple)}
 .subtitle{opacity:.75}
-.divider{
-  width:80%;max-width:420px;height:2px;
-  background:linear-gradient(90deg,transparent,var(--purple),transparent);
-  margin:20px auto
-}
+.divider{width:80%;max-width:420px;height:2px;background:linear-gradient(90deg,transparent,var(--purple),transparent);margin:20px auto}
 .section-title{text-align:center;padding:30px 0}
 .wrap{max-width:720px;margin:auto;padding:16px}
-.card{
-  background:#141414;
-  border-radius:16px;
-  padding:20px;
-  margin-bottom:24px;
-  border:1px solid var(--border)
-}
-.badge{
-  background:var(--purple);
-  color:#000;
-  display:inline-block;
-  padding:4px 10px;
-  border-radius:6px;
-  font-size:12px;
-  font-weight:800
-}
+.card{background:#141414;border-radius:16px;padding:20px;margin-bottom:24px;border:1px solid var(--border)}
+.badge{background:var(--purple);color:#000;display:inline-block;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:800}
 .price{font-size:34px;color:var(--purple);font-weight:900}
-.buy{
-  display:block;
-  text-align:center;
-  margin-top:15px;
-  padding:14px;
-  border-radius:10px;
-  border:2px solid var(--purple);
-  color:var(--purple);
-  text-decoration:none;
-  font-weight:800
-}
+.buy{display:block;text-align:center;margin-top:15px;padding:14px;border-radius:10px;border:2px solid var(--purple);color:var(--purple);text-decoration:none;font-weight:800}
 .buy:hover{background:var(--purple);color:#000}
 .links{text-align:center;padding:40px 0}
-.link-btn{
-  display:block;
-  max-width:300px;
-  margin:10px auto;
-  padding:14px;
-  border-radius:12px;
-  background:#141414;
-  border:1px solid var(--border);
-  color:#fff;
-  text-decoration:none
-}
+.link-btn{display:block;max-width:300px;margin:10px auto;padding:14px;border-radius:12px;background:#141414;border:1px solid var(--border);color:#fff;text-decoration:none}
 footer{text-align:center;opacity:.5;font-size:12px;padding:14px}
 #userLinks a{color:#a855f7;font-weight:700;margin:0 6px;text-decoration:none}
 </style>
 </head>
-
 <body>
 
 <div class="hero">
@@ -105,22 +57,17 @@ footer{text-align:center;opacity:.5;font-size:12px;padding:14px}
 <script src="product.js"></script>
 <script>
 const wrap = document.getElementById("products");
-
 PRODUCTS.forEach(p=>{
-  wrap.innerHTML += `
-    <div class="card">
-      <span class="badge">${p.badge}</span>
-      <h3>${p.name}</h3>
-      <div class="price">₹${p.price}</div>
-      <ul>${p.features.map(f=>`<li>✓ ${f}</li>`).join("")}</ul>
-      <a class="buy" onclick="buy('${encodeURIComponent(p.name)}',${p.price})">BUY NOW</a>
-    </div>
-  `;
+  wrap.innerHTML += `<div class="card">
+    <span class="badge">${p.badge}</span>
+    <h3>${p.name}</h3>
+    <div class="price">₹${p.price}</div>
+    <ul>${p.features.map(f=>`<li>✓ ${f}</li>`).join("")}</ul>
+    <a class="buy" onclick="buy('${encodeURIComponent(p.name)}',${p.price})">BUY NOW</a>
+  </div>`;
 });
-
 function buy(name,price){
-  window.location.href =
-    "./qr.html?product="+name+"&price="+price;
+  window.location.href="./qr.html?product="+name+"&price="+price;
 }
 </script>
 
