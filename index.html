@@ -4,69 +4,204 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Aura X Cheats Store</title>
+
 <style>
-/* Body & font */
-body{margin:0;font-family:Arial,sans-serif;background:#0b0b0b;color:#fff;}
-header{background:#111;padding:20px;text-align:center;box-shadow:0 0 10px #00ffcc;}
-h1{color:#00ffcc;margin:0;font-size:24px;text-shadow: 0 0 5px #00ffcc;}
-.container{padding:15px;}
-/* Product card */
-.card{background:#161616;margin-bottom:20px;padding:15px;border-radius:12px;box-shadow:0 0 20px #00ffcc;transition: transform 0.2s, box-shadow 0.2s;}
-.card:hover{transform: scale(1.02);box-shadow:0 0 30px #00ffcc;}
-.card h3{color:#ffcc00;margin-top:0;text-shadow:0 0 5px #ffcc00;}
-.card p{margin:5px 0;}
-.card img{width:100%;border-radius:10px;margin:10px 0;}
-.btn{display:block;text-align:center;background:#00ffcc;color:#000;padding:12px;border-radius:8px;text-decoration:none;font-weight:bold;margin-top:10px;cursor:pointer;transition:0.2s;}
-.btn:hover{background:#00ffaa;}
-input, select{width:100%;padding:10px;margin:5px 0;border-radius:5px;border:none;}
-footer{text-align:center;padding:15px;font-size:12px;color:#777;}
-.note{font-size:13px;color:#ccc;margin-top:5px;}
+:root{
+  --neon:#00ffcc;
+  --yellow:#ffcc00;
+  --bg:#0b0b0b;
+  --card:#151515;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:var(--bg);
+  color:#fff;
+}
+
+/* HEADER */
+header{
+  text-align:center;
+  padding:22px 15px;
+  background:#111;
+  box-shadow:0 0 20px var(--neon);
+}
+header h1{
+  margin:0;
+  font-size:26px;
+  color:var(--neon);
+  text-shadow:0 0 8px var(--neon);
+}
+header p{
+  margin:6px 0 0;
+  color:#aaa;
+  font-size:14px;
+}
+
+/* CONTAINER */
+.container{
+  max-width:720px;
+  margin:auto;
+  padding:15px;
+}
+
+/* PRODUCT CARD */
+.card{
+  background:var(--card);
+  border-radius:14px;
+  padding:15px;
+  margin-bottom:18px;
+  box-shadow:0 0 25px rgba(0,255,204,0.25);
+  transition:.25s;
+}
+.card:hover{
+  transform:scale(1.02);
+  box-shadow:0 0 40px var(--neon);
+}
+.card h3{
+  margin:0 0 6px;
+  color:var(--yellow);
+  text-shadow:0 0 6px var(--yellow);
+}
+.price{
+  font-weight:bold;
+  margin-bottom:8px;
+}
+.card img{
+  width:100%;
+  border-radius:12px;
+  margin:10px 0;
+}
+.upi{
+  font-size:14px;
+  color:#ccc;
+}
+
+/* BUTTON */
+.btn{
+  width:100%;
+  border:none;
+  padding:12px;
+  margin-top:10px;
+  border-radius:10px;
+  background:var(--neon);
+  color:#000;
+  font-size:16px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.2s;
+}
+.btn:hover{
+  background:#00ffaa;
+}
+
+/* MODAL */
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.85);
+  z-index:1000;
+}
+.modal-box{
+  background:#111;
+  max-width:420px;
+  margin:8% auto;
+  padding:18px;
+  border-radius:14px;
+  box-shadow:0 0 30px var(--neon);
+  position:relative;
+}
+.close{
+  position:absolute;
+  right:14px;
+  top:10px;
+  font-size:24px;
+  cursor:pointer;
+}
+
+/* FORM */
+input{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+  border-radius:8px;
+  border:none;
+}
+
+/* FOOTER */
+footer{
+  text-align:center;
+  padding:15px;
+  font-size:12px;
+  color:#777;
+}
 </style>
 </head>
+
 <body>
 
 <header>
-<h1>AURA X CHEATS STORE</h1>
-<p>Premium Gaming Cheats & Tools</p>
+  <h1>AURA X CHEATS STORE</h1>
+  <p>Instant Delivery • Secure UPI • Manual Verification</p>
 </header>
 
 <div class="container">
 
-<!-- Product 1 -->
+<!-- PRODUCT 1 -->
 <div class="card">
-<h3>💎 Free Fire Diamonds - ₹199</h3>
-<img src="upi-qr.png" alt="UPI QR">
-<p><b>UPI ID:</b> kumaripalak0@fam</p>
-<button class="btn" onclick="showForm('Free Fire Diamonds',199)">Order Now</button>
+  <h3>💎 Free Fire Diamonds</h3>
+  <div class="price">₹199</div>
+  <img src="upi-qr.png">
+  <div class="upi">UPI ID: <b>kumaripalak0@fam</b></div>
+  <button class="btn" onclick="openOrder('Free Fire Diamonds','199')">ORDER NOW</button>
 </div>
 
-<!-- Product 2 -->
+<!-- PRODUCT 2 -->
 <div class="card">
-<h3>🤖 Guild Glory Bot - ₹299</h3>
-<img src="upi-qr.png" alt="UPI QR">
-<p><b>UPI ID:</b> kumaripalak0@fam</p>
-<button class="btn" onclick="showForm('Guild Glory Bot',299)">Order Now</button>
+  <h3>🤖 Guild Glory Bot</h3>
+  <div class="price">₹299</div>
+  <img src="upi-qr.png">
+  <div class="upi">UPI ID: <b>kumaripalak0@fam</b></div>
+  <button class="btn" onclick="openOrder('Guild Glory Bot','299')">ORDER NOW</button>
 </div>
 
-<!-- Product 3 -->
+<!-- PRODUCT 3 -->
 <div class="card">
-<h3>🎮 Cheats & Mods - ₹499</h3>
-<img src="upi-qr.png" alt="UPI QR">
-<p><b>UPI ID:</b> kumaripalak0@fam</p>
-<button class="btn" onclick="showForm('Cheats & Mods',499)">Order Now</button>
+  <h3>🎮 Cheats & Mods</h3>
+  <div class="price">₹499</div>
+  <img src="upi-qr.png">
+  <div class="upi">UPI ID: <b>kumaripalak0@fam</b></div>
+  <button class="btn" onclick="openOrder('Cheats & Mods','499')">ORDER NOW</button>
 </div>
 
-<!-- Inline Order Form -->
-<div class="card" id="orderFormCard" style="display:none;">
-<h3>Submit Your Order</h3>
-<form id="orderForm">
-<input type="text" name="name" placeholder="Your Name" required>
-<input type="text" name="product" id="productName" readonly>
-<input type="text" name="amount" id="productPrice" readonly>
-<input type="text" name="utr" placeholder="Transaction ID / UTR" required>
-<button type="submit" class="btn">Submit Order</button>
-<p id="msg" class="note"></p>
-</form>
+<!-- PRODUCT 4 -->
+<div class="card">
+  <h3>💻 Script Bot</h3>
+  <div class="price">₹399</div>
+  <img src="upi-qr.png">
+  <div class="upi">UPI ID: <b>kumaripalak0@fam</b></div>
+  <button class="btn" onclick="openOrder('Script Bot','399')">ORDER NOW</button>
+</div>
+
+<!-- PRODUCT 5 -->
+<div class="card">
+  <h3>🎯 Aim Tool</h3>
+  <div class="price">₹599</div>
+  <img src="upi-qr.png">
+  <div class="upi">UPI ID: <b>kumaripalak0@fam</b></div>
+  <button class="btn" onclick="openOrder('Aim Tool','599')">ORDER NOW</button>
+</div>
+
+<!-- PRODUCT 6 -->
+<div class="card">
+  <h3>🛡️ Protection Mod</h3>
+  <div class="price">₹699</div>
+  <img src="upi-qr.png">
+  <div class="upi">UPI ID: <b>kumaripalak0@fam</b></div>
+  <button class="btn" onclick="openOrder('Protection Mod','699')">ORDER NOW</button>
 </div>
 
 </div>
@@ -75,41 +210,38 @@ footer{text-align:center;padding:15px;font-size:12px;color:#777;}
 © 2026 Aura X Cheats Store
 </footer>
 
-<!-- EmailJS -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<!-- MODAL -->
+<div class="modal" id="orderModal">
+  <div class="modal-box">
+    <span class="close" onclick="closeOrder()">×</span>
+    <h3>Submit Payment Details</h3>
+
+    <img src="upi-qr.png" style="width:100%;border-radius:10px;margin:8px 0">
+    <p>UPI ID: <b>kumaripalak0@fam</b></p>
+
+    <form onsubmit="event.preventDefault();submitOrder();">
+      <input id="pname" readonly>
+      <input id="pprice" readonly>
+      <input placeholder="Your Name" required>
+      <input placeholder="UTR / Transaction ID" required>
+      <button class="btn" type="submit">SUBMIT ORDER</button>
+    </form>
+  </div>
+</div>
+
 <script>
-// Initialize EmailJS
-(function(){emailjs.init('lDpUNN_uwsW-vT8_2');})();
-
-// Show form with product details
-function showForm(product, price){
-    document.getElementById('orderFormCard').style.display='block';
-    document.getElementById('productName').value = product;
-    document.getElementById('productPrice').value = price;
-    window.scrollTo({top: document.getElementById('orderFormCard').offsetTop, behavior: 'smooth'});
+function openOrder(name,price){
+  document.getElementById('orderModal').style.display='block';
+  document.getElementById('pname').value=name;
+  document.getElementById('pprice').value='₹'+price;
 }
-
-// Handle form submission
-document.getElementById('orderForm').addEventListener('submit', function(e){
-    e.preventDefault();
-    const name = this.name.value;
-    const product = this.product.value;
-    const amount = this.amount.value;
-    const utr = this.utr.value;
-
-    emailjs.send('service_sd0ge44','template_eclz1lh',{
-        from_name: name,
-        product_name: product,
-        amount_paid: amount,
-        utr_number: utr
-    })
-    .then(function(response){
-        document.getElementById('msg').innerText = "✅ Order submitted successfully!";
-        document.getElementById('orderForm').reset();
-    }, function(error){
-        document.getElementById('msg').innerText = "❌ Something went wrong. Try again.";
-    });
-});
+function closeOrder(){
+  document.getElementById('orderModal').style.display='none';
+}
+function submitOrder(){
+  alert("Order submitted! We will verify your payment.");
+  closeOrder();
+}
 </script>
 
 </body>
