@@ -1,24 +1,132 @@
-<table id="ordersTable">
-<tr>
-<th>#</th>
-<th>Product</th>
-<th>Price</th>
-<th>UTR</th>
-<th>Guild UID</th>
-<th>Region</th>
-<th>Telegram</th>
-<th>WhatsApp</th>
-<th>Action</th>
-</tr>
-</table>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard - Aura X Cheats</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root {
+  --bg: #0b0b0b;
+  --card: #111111;
+  --neon: #a855f7;
+  --accent: #00ffcc;
+  --text: #fff;
+}
+
+body {
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  background: #111;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 15px var(--neon);
+}
+header h1 {
+  margin: 0;
+  color: var(--neon);
+  text-shadow: 0 0 10px var(--neon);
+}
+
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(168,85,247,0.2);
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+}
+
+th {
+  background: var(--card);
+  color: var(--accent);
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 14px;
+}
+
+td {
+  background: var(--bg);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-size: 13px;
+}
+
+tr:hover td {
+  background: #1a1a1a;
+}
+
+button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: var(--neon);
+  color: #000;
+  font-weight: bold;
+  transition: 0.2s;
+}
+button:hover {
+  background: var(--accent);
+  color: #000;
+}
+
+#exportBtn {
+  margin-top: 15px;
+  width: 150px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Aura X Cheats - Admin Dashboard</h1>
+</header>
+
+<div class="container">
+  <table id="ordersTable">
+    <tr>
+      <th>#</th>
+      <th>Product</th>
+      <th>Price</th>
+      <th>UTR</th>
+      <th>Guild UID</th>
+      <th>Region</th>
+      <th>Telegram</th>
+      <th>WhatsApp</th>
+      <th>Action</th>
+    </tr>
+  </table>
+  <button id="exportBtn">Export CSV</button>
+</div>
 
 <script>
 let orders = JSON.parse(localStorage.getItem("orders")||"[]");
 const table = document.getElementById("ordersTable");
 
 function render(){
-  table.innerHTML=`<tr>
-<th>#</th><th>Product</th><th>Price</th><th>UTR</th><th>Guild UID</th><th>Region</th><th>Telegram</th><th>WhatsApp</th><th>Action</th></tr>`;
+  table.innerHTML = `<tr>
+    <th>#</th><th>Product</th><th>Price</th><th>UTR</th><th>Guild UID</th>
+    <th>Region</th><th>Telegram</th><th>WhatsApp</th><th>Action</th>
+  </tr>`;
   orders.forEach((o,i)=>{
     const row = table.insertRow();
     row.insertCell(0).innerText=i+1;
@@ -29,13 +137,29 @@ function render(){
     row.insertCell(5).innerText=o.region;
     row.insertCell(6).innerText=o.telegram;
     row.insertCell(7).innerText=o.whatsapp;
-    const btn=document.createElement("button");
+    const btn = document.createElement("button");
     btn.innerText="Delete";
     btn.onclick=()=>{orders.splice(i,1); saveRender();}
     row.insertCell(8).appendChild(btn);
   });
 }
 
-function saveRender(){ localStorage.setItem("orders", JSON.stringify(orders)); render();}
+function saveRender(){
+  localStorage.setItem("orders", JSON.stringify(orders));
+  render();
+}
+
+document.getElementById("exportBtn").addEventListener("click",()=>{
+  let csv="Product,Price,UTR,Guild UID,Region,Telegram,WhatsApp\n";
+  orders.forEach(o=>csv+=`${o.product},${o.price},${o.utr},${o.guild},${o.region},${o.telegram},${o.whatsapp}\n`);
+  const blob = new Blob([csv], {type: "text/csv"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "orders.csv";
+  a.click();
+});
+
 render();
 </script>
+</body>
+</html>
