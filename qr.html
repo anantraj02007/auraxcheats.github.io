@@ -29,12 +29,10 @@ img{border-radius:12px;margin-top:15px}
 </div>
 
 <script>
-// GET QUERY PARAMETERS
 const params = new URLSearchParams(window.location.search);
 const product = params.get("product");
 const price = params.get("price");
 
-// CHECK LOGIN
 const user = JSON.parse(localStorage.getItem("loggedUser"));
 if(!user){
   alert("❌ You must login first!");
@@ -43,7 +41,6 @@ if(!user){
   document.getElementById("username").innerText = "Hello, " + user.username;
 }
 
-// CHECK PRODUCT ACCESS
 if(!product || !price){
   document.body.innerHTML = "<h2>Invalid Access</h2><a href='index.html'>Go Home</a>";
 }else{
@@ -51,7 +48,6 @@ if(!product || !price){
   document.getElementById("price").innerText = "₹" + price;
 }
 
-// REDIRECT TO PAY
 function goPay(){
   window.location.href = "./pay.html?product="+encodeURIComponent(product)+"&price="+price;
 }
