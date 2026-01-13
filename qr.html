@@ -2,43 +2,87 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pay via UPI – Aura X Cheats Store</title>
+<title>Scan & Pay</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
 body{
+  margin:0;
   font-family:Arial,Helvetica,sans-serif;
-  background:radial-gradient(circle at top,#1c1030,#0b0b0f 65%);
-  color:#fff;text-align:center;padding:40px 20px;margin:0;
+  background:#0b0b0f;
+  color:#fff;
 }
-.container{
-  max-width:420px;margin:0 auto;background:#141414;border-radius:14px;
-  padding:25px;box-shadow:0 0 20px rgba(168,85,247,.3);
+.box{
+  max-width:420px;
+  margin:40px auto;
+  background:#141414;
+  padding:22px;
+  border-radius:16px;
+  text-align:center;
+  border:1px solid rgba(255,255,255,.1);
 }
-img.qr{width:220px;height:220px;border-radius:10px;margin:20px 0;}
+h2{margin-bottom:10px}
+.price{
+  font-size:32px;
+  color:#a855f7;
+  font-weight:900;
+  margin:10px 0 20px;
+}
+img{
+  width:260px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
 button{
-  background:#a855f7;color:#000;font-weight:bold;border:none;
-  border-radius:10px;padding:14px 18px;cursor:pointer;width:100%;
+  width:100%;
+  padding:16px;
+  background:#a855f7;
+  color:#000;
+  font-weight:800;
+  border:none;
+  border-radius:12px;
+  cursor:pointer;
 }
-button:hover{background:#bf74ff;}
+small{opacity:.7}
 </style>
 </head>
+
 <body>
-<div class="container">
-  <h1>Scan & Pay</h1>
-  <p>Pay the exact amount shown for your selected plan.</p>
-  <img class="qr" src="your-upi-qr.png" alt="UPI QR Code">
-  <p><b>UPI ID:</b> kumaripalak0@fam</p>
-  <p>After completing payment, click below.</p>
-  <button id="continue">I HAVE PAID</button>
+
+<div class="box">
+  <h2>Scan QR & Pay</h2>
+  <div id="productName"></div>
+  <div class="price" id="price"></div>
+
+  <!-- 🔴 REPLACE WITH YOUR REAL QR IMAGE -->
+  <img src="qr.png" alt="Scan to Pay">
+
+  <small>
+    After payment, click continue and submit UTR.
+  </small><br><br>
+
+  <button onclick="goNext()">I HAVE PAID</button>
 </div>
 
 <script>
-const params=new URLSearchParams(window.location.search);
-const plan=params.get("name")||"Unknown Plan";
-const price=params.get("price")||"0";
-document.getElementById("continue").onclick=()=>{
-  window.location.href=`pay.html?name=${encodeURIComponent(plan)}&price=${price}`;
-};
+const params = new URLSearchParams(window.location.search);
+const name = params.get("name");
+const price = params.get("price");
+
+if(!name || !price){
+  alert("Invalid access");
+  window.location.href="index.html";
+}
+
+document.getElementById("productName").innerText = name;
+document.getElementById("price").innerText = "₹" + price;
+
+function goNext(){
+  window.location.href =
+    "pay.html?name=" + encodeURIComponent(name) +
+    "&price=" + price;
+}
 </script>
+
 </body>
 </html>
