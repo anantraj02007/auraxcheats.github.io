@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Account | Aura X Cheats</title>
+<style>
+body{background:#0b0b0f;color:#fff;font-family:Arial,sans-serif;padding:20px;}
+h2{color:#a855f7;text-align:center;}
+button{padding:10px 20px;margin:10px;background:#a855f7;color:#000;border:none;border-radius:8px;cursor:pointer;}
+.order{border:1px solid #a855f7;padding:10px;margin:10px;border-radius:8px;}
+</style>
+</head>
+<body>
+
+<h2>My Account</h2>
+<div id="userInfo"></div>
+
+<h2>My Orders</h2>
+<div id="orders"></div>
+
+<button onclick="logout()">Logout</button>
+
+<script>
+// Check logged-in user
+const currentUserEmail = localStorage.getItem("currentUser");
+if(!currentUserEmail){
+  alert("Please login first!");
+  window.location.href="login.html";
+}
+
+// Get user data
+const userData = JSON.parse(localStorage.getItem(currentUserEmail));
+document.getElementById("userInfo").innerHTML = `
+  <b>Username:</b> ${userData.username} <br>
+  <b>Email:</b> ${userData.email}
+`;
+
+// Display orders
+const ordersDiv = document.getElementById("orders");
+if(userData.orders.length === 0){
+  ordersDiv.innerHTML = "<i>No orders yet.</i>";
+} else {
+  userData.orders.forEach((o,i)=>{
+    ordersDiv.innerHTML += `
+      <div class="order">
+        <b>Order #${i+1}</b><br>
+        Product: ${o.product}<br>
+        Price: ₹${o.price}<br>
+        UTR: ${o.utr}<br>
+        Guild UID: ${o.guildUid}<br>
+        Region: ${o.region}<br>
+        Telegram: ${o.telegram}<br>
+        WhatsApp: ${o.whatsapp}<br>
+        Status: ${o.status || "Pending"}
+      </div>
+    `;
+  });
+}
+
+function logout(){
+  localStorage.removeItem("currentUser");
+  window.location.href="login.html";
+}
+</script>
+
+</body>
+</html>
