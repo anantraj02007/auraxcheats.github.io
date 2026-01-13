@@ -59,13 +59,13 @@ footer{text-align:center;opacity:.5;font-size:12px;padding:14px}
 const wrap = document.getElementById("products");
 const user = JSON.parse(localStorage.getItem("loggedUser"));
 
-// ✅ Update user links dynamically
+// Update user links
 const userLinks = document.getElementById("userLinks");
 if(user){
   userLinks.innerHTML = `Welcome, <b>${user.username}</b> | <a href="account.html">My Account</a> | <a href="#" onclick="logout()">Logout</a>`;
 }
 
-// Logout function
+// Logout
 function logout(){
   localStorage.removeItem("loggedUser");
   window.location.reload();
@@ -82,7 +82,7 @@ PRODUCTS.forEach(p=>{
   </div>`;
 });
 
-// ✅ Require login to buy
+// Require login for Buy
 function buy(name,price){
   const user = JSON.parse(localStorage.getItem("loggedUser"));
   if(!user){
@@ -90,7 +90,6 @@ function buy(name,price){
     window.location.href="login.html";
     return;
   }
-  // User logged in → go to QR page
   window.location.href="./qr.html?product="+name+"&price="+price;
 }
 </script>
