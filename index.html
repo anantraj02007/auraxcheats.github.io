@@ -18,7 +18,7 @@ body{margin:0;font-family:Arial;background:radial-gradient(circle at top,#1c1030
 .card{background:#141414;border-radius:16px;padding:20px;margin-bottom:24px;border:1px solid var(--border)}
 .badge{background:var(--purple);color:#000;display:inline-block;padding:4px 10px;border-radius:6px;font-size:12px;font-weight:800}
 .price{font-size:34px;color:var(--purple);font-weight:900}
-.buy{display:block;text-align:center;margin-top:15px;padding:14px;border-radius:10px;border:2px solid var(--purple);color:var(--purple);text-decoration:none;font-weight:800}
+.buy{display:block;text-align:center;margin-top:15px;padding:14px;border-radius:10px;border:2px solid var(--purple);color:var(--purple);text-decoration:none;font-weight:800;cursor:pointer}
 .buy:hover{background:var(--purple);color:#000}
 .links{text-align:center;padding:40px 0}
 .link-btn{display:block;max-width:300px;margin:10px auto;padding:14px;border-radius:12px;background:#141414;border:1px solid var(--border);color:#fff;text-decoration:none}
@@ -57,16 +57,40 @@ footer{text-align:center;opacity:.5;font-size:12px;padding:14px}
 <script src="product.js"></script>
 <script>
 const wrap = document.getElementById("products");
+const user = JSON.parse(localStorage.getItem("loggedUser"));
+
+// ✅ Update user links dynamically
+const userLinks = document.getElementById("userLinks");
+if(user){
+  userLinks.innerHTML = `Welcome, <b>${user.username}</b> | <a href="account.html">My Account</a> | <a href="#" onclick="logout()">Logout</a>`;
+}
+
+// Logout function
+function logout(){
+  localStorage.removeItem("loggedUser");
+  window.location.reload();
+}
+
+// Load products
 PRODUCTS.forEach(p=>{
   wrap.innerHTML += `<div class="card">
     <span class="badge">${p.badge}</span>
-    <h3>${p.name}</h3>
+    <h3>${decodeURIComponent(p.name)}</h3>
     <div class="price">₹${p.price}</div>
     <ul>${p.features.map(f=>`<li>✓ ${f}</li>`).join("")}</ul>
     <a class="buy" onclick="buy('${encodeURIComponent(p.name)}',${p.price})">BUY NOW</a>
   </div>`;
 });
+
+// ✅ Require login to buy
 function buy(name,price){
+  const user = JSON.parse(localStorage.getItem("loggedUser"));
+  if(!user){
+    alert("❌ You must login first to buy a product!");
+    window.location.href="login.html";
+    return;
+  }
+  // User logged in → go to QR page
   window.location.href="./qr.html?product="+name+"&price="+price;
 }
 </script>
