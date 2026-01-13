@@ -103,18 +103,30 @@ function buy(name, price){
 }
 
 // SHOW / HIDE LOGIN / SIGNUP LINKS
-const currentUser = localStorage.getItem("currentUser");
-if(currentUser){
-  document.getElementById("signupLink").style.display = "none";
-  document.getElementById("loginLink").style.display = "none";
-  document.getElementById("accountLink").style.display = "inline";
-  document.getElementById("logoutLink").style.display = "inline";
-}
+document.addEventListener("DOMContentLoaded", function() {
+  const signupLink = document.getElementById("signupLink");
+  const loginLink = document.getElementById("loginLink");
+  const accountLink = document.getElementById("accountLink");
+  const logoutLink = document.getElementById("logoutLink");
 
-// LOGOUT
-document.getElementById("logoutLink").addEventListener("click", ()=>{
-  localStorage.removeItem("currentUser");
-  window.location.reload();
+  const currentUser = localStorage.getItem("currentUser");
+
+  if(currentUser){
+    signupLink.style.display = "none";
+    loginLink.style.display = "none";
+    accountLink.style.display = "inline";
+    logoutLink.style.display = "inline";
+  } else {
+    signupLink.style.display = "inline";
+    loginLink.style.display = "inline";
+    accountLink.style.display = "none";
+    logoutLink.style.display = "none";
+  }
+
+  logoutLink.addEventListener("click", function() {
+    localStorage.removeItem("currentUser");
+    window.location.reload();
+  });
 });
 </script>
 
