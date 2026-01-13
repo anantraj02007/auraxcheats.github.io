@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Signup | Aura X Cheats</title>
+<style>
+body{background:#0b0b0f;color:#fff;font-family:Arial,sans-serif;text-align:center;padding:50px;}
+input,button{padding:12px;margin:8px;border-radius:8px;border:none;font-size:14px;width:220px;}
+button{background:#a855f7;color:#000;font-weight:800;cursor:pointer;}
+a{color:#a855f7;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<h2>Signup</h2>
+<form id="signupForm">
+  <input type="text" id="username" placeholder="Username" required><br>
+  <input type="email" id="email" placeholder="Email" required><br>
+  <input type="password" id="password" placeholder="Password" required><br>
+  <button type="submit">Sign Up</button>
+</form>
+<p>Already have an account? <a href="login.html">Login</a></p>
+
+<script>
+const signupForm = document.getElementById("signupForm");
+
+signupForm.addEventListener("submit", (e)=>{
+  e.preventDefault();
+  const username = document.getElementById("username").value.trim();
+  const email = document.getElementById("email").value.trim().toLowerCase();
+  const password = btoa(document.getElementById("password").value); // simple encoding
+
+  if(localStorage.getItem(email)){
+    alert("Email already exists!");
+    return;
+  }
+
+  const user = { username, email, password, orders: [] };
+  localStorage.setItem(email, JSON.stringify(user));
+  alert("Signup successful! Please login.");
+  window.location.href = "login.html";
+});
+</script>
+
+</body>
+</html>
