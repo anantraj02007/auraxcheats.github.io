@@ -5,96 +5,78 @@
 <title>Forgot Password | Aura X Cheats</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
-  background:#0b0b0f;
-  color:#fff;
+body {
+  font-family: Arial, sans-serif;
+  background: #0b0b0f;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
 }
-.box{
-  max-width:380px;
-  margin:80px auto;
-  padding:25px;
-  background:#141414;
-  border-radius:12px;
-  box-shadow:0 0 25px rgba(168,85,247,.25);
+.container {
+  background: #141414;
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.1);
+  max-width: 360px;
+  width: 100%;
 }
-h2{text-align:center;margin-bottom:20px}
-input{
-  width:100%;
-  padding:12px;
-  margin-bottom:14px;
-  border-radius:8px;
-  border:none;
-  outline:none;
+h2 { text-align: center; color: #a855f7; margin-bottom: 20px; }
+input, button {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
 }
-button{
-  width:100%;
-  padding:12px;
-  background:#a855f7;
-  color:#000;
-  font-weight:800;
-  border:none;
-  border-radius:8px;
-  cursor:pointer;
-}
-button:hover{opacity:.9}
-.msg{
-  margin-top:14px;
-  text-align:center;
-  font-size:14px;
-}
-a{color:#a855f7;text-decoration:none}
+input { background: #0f0f0f; color: #fff; }
+button { background: #a855f7; color: #000; font-weight: 800; cursor: pointer; }
+button:hover { opacity: 0.9; }
+p { text-align: center; font-size: 14px; }
+a { color: #a855f7; text-decoration: none; }
 </style>
 </head>
-
 <body>
 
-<div class="box">
+<div class="container">
   <h2>Forgot Password</h2>
-
-  <input type="text" id="username" placeholder="Enter Username" required>
-  <input type="email" id="email" placeholder="Enter Email" required>
-  <input type="password" id="newPass" placeholder="New Password">
-
-  <button onclick="recover()">Recover Password</button>
-
-  <div class="msg" id="msg"></div>
-
-  <p style="text-align:center;margin-top:15px;">
-    <a href="login.html">Back to Login</a>
-  </p>
+  <form id="forgotForm">
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="email" id="email" placeholder="Registered Email" required>
+    <input type="password" id="newPassword" placeholder="New Password" required>
+    <button type="submit">RESET PASSWORD</button>
+  </form>
+  <p><a href="login.html">Back to Login</a></p>
 </div>
 
 <script>
-function recover(){
+document.getElementById("forgotForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
   const username = document.getElementById("username").value.trim();
   const email = document.getElementById("email").value.trim();
-  const newPass = document.getElementById("newPass").value.trim();
-  const msg = document.getElementById("msg");
+  const newPassword = document.getElementById("newPassword").value;
 
-  if(!username || !email){
-    msg.innerHTML = "❌ Please fill all required fields";
+  let users = JSON.parse(localStorage.getItem("users") || "[]");
+
+  // Find user by both email and username
+  const index = users.findIndex(u => u.email === email && u.username === username);
+
+  if(index === -1){
+    alert("❌ No account found with this Username & Email!");
     return;
   }
 
-  let users = JSON.parse(localStorage.getItem("users")) || [];
+  // Update password
+  users[index].password = newPassword;
+  localStorage.setItem("users", JSON.stringify(users));
 
-  let user = users.find(u => u.username === username && u.email === email);
-
-  if(!user){
-    msg.innerHTML = "❌ No matching account found";
-    return;
-  }
-
-  if(newPass){
-    user.password = newPass;
-    localStorage.setItem("users", JSON.stringify(users));
-    msg.innerHTML = "✅ Password updated! You can login now.";
-  } else {
-    msg.innerHTML = "✅ Account verified. Enter new password.";
-  }
-}
+  alert("✅ Password reset successfully! Please login.");
+  window.location.href = "login.html";
+});
 </script>
 
 </body>
