@@ -20,7 +20,7 @@ body{
   border-radius:14px;
   box-shadow:0 0 20px rgba(168,85,247,.4);
 }
-h2, h1{margin:6px 0}
+h2, h1, h3{margin:6px 0}
 button{
   padding:14px 22px;
   background:#a855f7;
@@ -38,11 +38,12 @@ img{border-radius:12px;margin-top:15px}
 <body>
 
 <div class="box">
+  <h3 id="username">Hello, Guest</h3>
   <h2 id="pname">Loading...</h2>
   <h1 id="price"></h1>
 
-  <img src="qr.png?v=2" width="220" alt="Scan QR to Pay">
-<p><b>UPI ID:</b> kumaripalak0@fam</p>
+  <img src="qr.png?v=2" width="220" alt="Scan QR to Pay"><br>
+  <p><b>UPI ID:</b> kumaripalak0@fam</p>
 
   <button onclick="goPay()">I HAVE PAID</button>
   <p style="margin-top:15px"><a href="index.html">Back to Home</a></p>
@@ -54,10 +55,24 @@ const params = new URLSearchParams(window.location.search);
 const product = params.get("product");
 const price = params.get("price");
 
-// CHECK ACCESS
+// GET LOGGED IN USER
+const user = JSON.parse(localStorage.getItem("loggedUser"));
+
+// CHECK LOGIN
+if(!user){
+  alert("❌ You must login first!");
+  window.location.href = "login.html";
+}
+
+// SHOW USER NAME
+if(user){
+  document.getElementById("username").innerText = "Hello, " + user.username;
+}
+
+// CHECK PRODUCT ACCESS
 if(!product || !price){
   document.body.innerHTML = "<h2>Invalid Access</h2><a href='index.html'>Go Home</a>";
-}else{
+} else {
   document.getElementById("pname").innerText = decodeURIComponent(product);
   document.getElementById("price").innerText = "₹" + price;
 }
