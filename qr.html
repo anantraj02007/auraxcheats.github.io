@@ -2,96 +2,69 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Scan & Pay | Aura X Cheats Store</title>
+<title>Scan & Pay</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
-  margin:0;
-  font-family:Arial,Helvetica,sans-serif;
   background:#0b0b0f;
   color:#fff;
-  text-align:center;
+  font-family:Arial;
+  text-align:center
 }
-.container{
-  max-width:420px;
-  margin:50px auto;
+.box{
+  max-width:380px;
+  margin:60px auto;
+  padding:20px;
   background:#141414;
-  padding:22px;
-  border-radius:16px;
-  border:1px solid rgba(255,255,255,.1);
-}
-h2{margin-bottom:10px;}
-.price{
-  font-size:32px;
-  color:#a855f7;
-  font-weight:900;
-  margin:10px 0 20px;
-}
-img{
-  width:260px;
-  border-radius:12px;
-  margin-bottom:12px;
-}
-.upi-box{
-  margin-top:8px;
-  padding:12px;
-  background:#0f0f0f;
-  border-radius:10px;
-  font-weight:700;
+  border-radius:14px
 }
 button{
-  width:100%;
-  padding:16px;
+  padding:14px 22px;
   background:#a855f7;
-  color:#000;
-  font-weight:800;
   border:none;
-  border-radius:12px;
-  cursor:pointer;
+  border-radius:10px;
+  font-weight:800;
+  cursor:pointer
 }
-button:hover{opacity:.85;}
-small{opacity:.7;}
+a{color:#a855f7;text-decoration:none}
 </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h2>Scan QR & Pay</h2>
-  <div id="productName"></div>
-  <div class="price" id="price"></div>
+<div class="box">
+  <h2 id="pname"></h2>
+  <h1 id="price"></h1>
 
-  <!-- 🔴 QR Image -->
-  <img src="qr.png" alt="Scan to Pay">
+  <img src="upi-qr.png" width="220"><br><br>
+  <b>UPI ID:</b> kumaripalak0@fam
 
-  <!-- 🔴 UPI ID -->
-  <div class="upi-box">
-    UPI ID: <b>kumaripalak0@fam</b>
-  </div>
+  <br><br>
+  <button onclick="goPay()">I HAVE PAID</button>
 
-  <small>After payment, click "I HAVE PAID" and submit UTR.</small><br><br>
-
-  <button onclick="goNext()">I HAVE PAID</button>
+  <p style="margin-top:15px">
+    <a href="index.html">Back to Home</a>
+  </p>
 </div>
 
 <script>
 const params = new URLSearchParams(window.location.search);
-const name = params.get("name");
+const product = params.get("product");
 const price = params.get("price");
 
-if(!name || !price){
-  alert("Invalid access");
-  window.location.href="index.html";
+if(!product || !price){
+  document.body.innerHTML =
+    "<h2>Invalid Access</h2><a href='index.html'>Go Home</a>";
+}else{
+  document.getElementById("pname").innerText =
+    decodeURIComponent(product);
+  document.getElementById("price").innerText = "₹"+price;
 }
 
-document.getElementById("productName").innerText = name;
-document.getElementById("price").innerText = "₹" + price;
-
-function goNext(){
+function goPay(){
   window.location.href =
-    "pay.html?name=" + encodeURIComponent(name) +
-    "&price=" + price;
+    "./pay.html?product="+product+"&price="+price;
 }
 </script>
 
