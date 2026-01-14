@@ -2,109 +2,104 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Admin Dashboard - Aura X Cheats</title>
+<title>Admin Panel | Aura X Cheats</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-:root {
-  --bg: #0b0b0b;
-  --card: #111111;
-  --neon: #a855f7;
-  --accent: #00ffcc;
-  --text: #fff;
-}
-
-body {
+body{
   margin:0;
-  font-family: Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0b0b0f;
+  color:#fff;
+  padding:20px;
 }
-
-header {
-  background: #111;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 0 15px var(--neon);
+.container{
+  max-width:1000px;
+  margin:auto;
+  background:#141414;
+  padding:20px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.1);
 }
-header h1 {
-  margin: 0;
-  color: var(--neon);
-  text-shadow: 0 0 10px var(--neon);
+h2{text-align:center;margin-bottom:20px;color:#a855f7}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
 }
-
-.container {
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 0 15px;
+th,td{
+  border:1px solid rgba(255,255,255,.15);
+  padding:8px;
+  text-align:center;
 }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 0 20px rgba(168,85,247,0.2);
+th{background:#1f1f1f}
+button{
+  padding:8px 12px;
+  border:none;
+  border-radius:8px;
+  font-weight:700;
+  cursor:pointer;
 }
-
-th, td {
-  padding: 12px;
-  text-align: center;
+.deleteBtn{background:#ff4d4d;color:#000}
+.exportBtn{
+  background:#a855f7;
+  color:#000;
+  margin-top:15px;
 }
-
-th {
-  background: var(--card);
-  color: var(--accent);
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-size: 14px;
+.topbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
 }
-
-td {
-  background: var(--bg);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-  font-size: 13px;
-}
-
-tr:hover td {
-  background: #1a1a1a;
-}
-
-button {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  background: var(--neon);
-  color: #000;
-  font-weight: bold;
-  transition: 0.2s;
-}
-button:hover {
-  background: var(--accent);
-  color: #000;
-}
-
-#exportBtn {
-  margin-top: 15px;
-  width: 150px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
+a{color:#a855f7;text-decoration:none;font-weight:700}
 </style>
 </head>
+
 <body>
 
-<header>
-  <h1>Aura X Cheats - Admin Dashboard</h1>
-</header>
-
 <div class="container">
-  <table id="ordersTable">
+
+  <div class="topbar">
+    <h2>🛡 Admin Orders Panel</h2>
+    <a href="index.html">⬅ Home</a>
+  </div>
+
+  <table id="ordersTable"></table>
+
+  <button class="exportBtn" id="exportBtn">⬇ Export CSV</button>
+
+</div>
+
+<script>
+/* =============================
+   🔐 ADMIN PASSWORD SECTION
+============================= */
+const ADMIN_PASSWORD = "aura_x_cheats"; // 👈 CHANGE PASSWORD HERE
+
+let isAdmin = sessionStorage.getItem("isAdmin");
+if(!isAdmin){
+  const pass = prompt("🔐 Enter Admin Password:");
+  if(pass !== ADMIN_PASSWORD){
+    alert("❌ Access Denied!");
+    window.location.href = "index.html";
+  }else{
+    sessionStorage.setItem("isAdmin","true");
+  }
+}
+
+/* =============================
+   📦 LOAD ORDERS
+============================= */
+let orders = JSON.parse(localStorage.getItem("orders") || "[]");
+const table = document.getElementById("ordersTable");
+
+function render(){
+  table.innerHTML = `
     <tr>
       <th>#</th>
+      <th>Username</th>
+      <th>Email</th>
       <th>Product</th>
       <th>Price</th>
       <th>UTR</th>
@@ -114,33 +109,40 @@ button:hover {
       <th>WhatsApp</th>
       <th>Action</th>
     </tr>
-  </table>
-  <button id="exportBtn">Export CSV</button>
-</div>
+  `;
 
-<script>
-let orders = JSON.parse(localStorage.getItem("orders")||"[]");
-const table = document.getElementById("ordersTable");
+  if(orders.length === 0){
+    const row = table.insertRow();
+    const cell = row.insertCell();
+    cell.colSpan = 11;
+    cell.innerText = "No orders found.";
+    cell.style.opacity = ".6";
+    return;
+  }
 
-function render(){
-  table.innerHTML = `<tr>
-    <th>#</th><th>Product</th><th>Price</th><th>UTR</th><th>Guild UID</th>
-    <th>Region</th><th>Telegram</th><th>WhatsApp</th><th>Action</th>
-  </tr>`;
   orders.forEach((o,i)=>{
     const row = table.insertRow();
-    row.insertCell(0).innerText=i+1;
-    row.insertCell(1).innerText=o.product;
-    row.insertCell(2).innerText=o.price;
-    row.insertCell(3).innerText=o.utr;
-    row.insertCell(4).innerText=o.guild;
-    row.insertCell(5).innerText=o.region;
-    row.insertCell(6).innerText=o.telegram;
-    row.insertCell(7).innerText=o.whatsapp;
+    row.insertCell().innerText = i+1;
+    row.insertCell().innerText = o.username || "N/A";
+    row.insertCell().innerText = o.email || "N/A";
+    row.insertCell().innerText = o.product;
+    row.insertCell().innerText = o.price;
+    row.insertCell().innerText = o.utr;
+    row.insertCell().innerText = o.uid;
+    row.insertCell().innerText = o.region;
+    row.insertCell().innerText = o.telegram;
+    row.insertCell().innerText = o.whatsapp;
+
     const btn = document.createElement("button");
-    btn.innerText="Delete";
-    btn.onclick=()=>{orders.splice(i,1); saveRender();}
-    row.insertCell(8).appendChild(btn);
+    btn.innerText = "Delete";
+    btn.className = "deleteBtn";
+    btn.onclick = ()=>{
+      if(confirm("Delete this order?")){
+        orders.splice(i,1);
+        saveRender();
+      }
+    };
+    row.insertCell().appendChild(btn);
   });
 }
 
@@ -149,10 +151,16 @@ function saveRender(){
   render();
 }
 
+/* =============================
+   📤 EXPORT CSV
+============================= */
 document.getElementById("exportBtn").addEventListener("click",()=>{
-  let csv="Product,Price,UTR,Guild UID,Region,Telegram,WhatsApp\n";
-  orders.forEach(o=>csv+=`${o.product},${o.price},${o.utr},${o.guild},${o.region},${o.telegram},${o.whatsapp}\n`);
-  const blob = new Blob([csv], {type: "text/csv"});
+  let csv = "Username,Email,Product,Price,UTR,Guild UID,Region,Telegram,WhatsApp\n";
+  orders.forEach(o=>{
+    csv += `${o.username},${o.email},${o.product},${o.price},${o.utr},${o.uid},${o.region},${o.telegram},${o.whatsapp}\n`;
+  });
+
+  const blob = new Blob([csv], {type:"text/csv"});
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = "orders.csv";
@@ -161,5 +169,6 @@ document.getElementById("exportBtn").addEventListener("click",()=>{
 
 render();
 </script>
+
 </body>
 </html>
