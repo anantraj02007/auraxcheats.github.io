@@ -4,10 +4,13 @@
 <meta charset="UTF-8">
 <title>Payment Details | Aura X Cheats Store</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- EmailJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
 (function(){ emailjs.init("lDpUNN_uwsW-vT8_2"); })();
 </script>
+
 <style>
 body{margin:0;font-family:Arial;background:#0b0b0f;color:#fff}
 .container{max-width:420px;margin:30px auto;background:#141414;padding:22px;border-radius:16px;border:1px solid rgba(255,255,255,.1)}
@@ -23,6 +26,7 @@ small{opacity:.6}
 <body>
 
 <div class="container">
+
 <form id="orderForm">
   <h2>Submit Payment Details</h2>
 
@@ -50,40 +54,57 @@ small{opacity:.6}
   <a href="index.html" style="display:inline-block;margin-top:20px;padding:14px 22px;background:#a855f7;color:#000;font-weight:800;border-radius:10px;text-decoration:none;">⬅ BACK TO HOME</a><br><br>
   <a href="https://t.me/aura_x_cheats" style="color:#a855f7;text-decoration:none;">👉 Telegram Support</a>
 </div>
+
 </div>
 
 <script>
+// BLOCK DIRECT ACCESS
 const params = new URLSearchParams(window.location.search);
-if(!params.get("price")){ alert("❌ Please complete payment first."); window.location.href = "index.html"; }
-document.getElementById("product").value = params.get("product") + " - ₹" + params.get("price");
+if(!params.get("price") || !params.get("product")){
+  alert("❌ Please complete payment first.");
+  window.location.href = "index.html";
+}
+document.getElementById("product").value = decodeURIComponent(params.get("product")) + " - ₹" + params.get("price");
 
+// CHECK LOGIN
 const user = JSON.parse(localStorage.getItem("loggedUser"));
 if(!user){ alert("❌ Login required!"); window.location.href="login.html"; }
 
-document.getElementById("orderForm").addEventListener("submit", function(e){
+// HANDLE FORM SUBMISSION
+document.getElementById("orderForm").addEventListener("submit", async function(e){
   e.preventDefault();
+
   const data = {
     username: user.username,
+    email: document.getElementById("email").value,
     product: document.getElementById("product").value,
     utr: document.getElementById("utr").value,
     uid: document.getElementById("uid").value,
     region: document.getElementById("region").value,
     telegram: document.getElementById("telegram").value,
-    whatsapp: document.getElementById("whatsapp").value,
-    email: document.getElementById("email").value
+    whatsapp: document.getElementById("whatsapp").value
   };
 
+  // SAVE ORDER LOCALLY
   let allOrders = JSON.parse(localStorage.getItem("orders") || "[]");
   allOrders.push(data);
   localStorage.setItem("orders", JSON.stringify(allOrders));
 
-  emailjs.send("service_sd0ge44","template_eclz1lh",data)
-    .then(()=>emailjs.send("service_sd0ge44","customer_reply",data))
-    .then(()=>{
-      document.getElementById("orderForm").style.display="none";
-      document.getElementById("successBox").style.display="block";
-    })
-    .catch(err=>{ alert("❌ Email error, try again."); console.error(err); });
+  try {
+    // SEND EMAIL TO ADMIN ONCE
+    await emailjs.send("service_sd0ge44", "template_eclz1lh", data);
+
+    // SEND AUTO-REPLY TO CUSTOMER
+    await emailjs.send("service_sd0ge44", "customer_reply", data);
+
+    // SHOW SUCCESS
+    document.getElementById("orderForm").style.display = "none";
+    document.getElementById("successBox").style.display = "block";
+
+  } catch(err){
+    console.error(err);
+    alert("❌ Email error! Try again later.");
+  }
 });
 </script>
 
