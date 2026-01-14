@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin – Registered Users</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#0b0b0f;
+  color:#fff;
+  padding:20px;
+}
+.container{
+  max-width:900px;
+  margin:auto;
+  background:#141414;
+  padding:20px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.1);
+}
+h2{text-align:center;margin-bottom:20px}
+table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+}
+th,td{
+  padding:10px;
+  border-bottom:1px solid rgba(255,255,255,.1);
+  text-align:left;
+}
+th{color:#a855f7}
+input{
+  width:100%;
+  padding:6px;
+  border-radius:6px;
+  border:none;
+  background:#0f0f0f;
+  color:#fff;
+}
+button{
+  padding:6px 10px;
+  border:none;
+  border-radius:6px;
+  font-weight:700;
+  cursor:pointer;
+}
+.save{background:#22c55e;color:#000}
+.delete{background:#ef4444;color:#fff}
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+a{color:#a855f7;text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="top">
+    <h2>👤 Registered Users</h2>
+    <a href="admin.html">⬅ Back to Orders</a>
+  </div>
+
+  <table id="usersTable">
+    <tr>
+      <th>#</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Password</th>
+      <th>Action</th>
+    </tr>
+  </table>
+</div>
+
+<script>
+let users = JSON.parse(localStorage.getItem("users") || "[]");
+const table = document.getElementById("usersTable");
+
+function render(){
+  table.innerHTML = `
+    <tr>
+      <th>#</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Password</th>
+      <th>Action</th>
+    </tr>
+  `;
+
+  if(users.length === 0){
+    const row = table.insertRow();
+    const cell = row.insertCell(0);
+    cell.colSpan = 5;
+    cell.style.opacity = ".6";
+    cell.innerText = "No registered users found.";
+    return;
+  }
+
+  users.forEach((u,i)=>{
+    const row = table.insertRow();
+    row.insertCell(0).innerText = i+1;
+    row.insertCell(1).innerText = u.username;
+    row.insertCell(2).innerText = u.email;
+
+    const passCell = row.insertCell(3);
+    const passInput = document.createElement("input");
+    passInput.value = u.password;
+    passCell.appendChild(passInput);
+
+    const actionCell = row.insertCell(4);
+
+    const saveBtn = document.createElement("button");
+    saveBtn.innerText = "Save";
+    saveBtn.className = "save";
+    saveBtn.onclick = ()=>{
+      users[i].password = passInput.value;
+      localStorage.setItem("users", JSON.stringify(users));
+      alert("✅ Password updated");
+    };
+
+    const delBtn = document.createElement("button");
+    delBtn.innerText = "Delete";
+    delBtn.className = "delete";
+    delBtn.style.marginLeft = "6px";
+    delBtn.onclick = ()=>{
+      if(confirm("Delete this user?")){
+        users.splice(i,1);
+        localStorage.setItem("users", JSON.stringify(users));
+        render();
+      }
+    };
+
+    actionCell.appendChild(saveBtn);
+    actionCell.appendChild(delBtn);
+  });
+}
+
+render();
+</script>
+
+</body>
+</html>
