@@ -2,31 +2,31 @@ const PRODUCTS = [
   {
     badge: "BASIC",
     name: "GUILD GLORY (100K)",
-    price: 250,
+    price: 300,
     features: ["Instant Delivery","Secure UPI Payment","Manual Verification","4 Bots"]
   },
   {
     badge: "💥BEST SELLER💥",
     name: "GUILD GLORY BOT(200K)",
-    price: 450,
+    price: 550,
     features: ["Instant Delivery","Secure UPI Payment","Manual Verification","8 Bots"]
   },
   {
     badge: "⭐MOST VALUE⭐",
     name: "GUILD GLORY BOT (300K)",
-    price: 600,
+    price: 700,
     features: ["Instant Delivery","Secure UPI Payment","Manual Verification","12 Bots"]
   },
   {
     badge: "🔥HOT🔥",
     name: "GUILD GLORY BOT (400K)",
-    price: 750,
+    price: 1000,
     features: ["Instant Delivery","Secure UPI Payment","Manual Verification","16 Bots"]
   },
   {
     badge: "💎PREMIUM💎",
     name: "GUILD GLORY BOT (500K)",
-    price: 900,
+    price: 1200,
     features: ["Instant Delivery","Secure UPI Payment","Manual Verification","20 Bots"]
   },
   {
